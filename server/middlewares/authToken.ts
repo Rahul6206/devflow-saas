@@ -5,19 +5,30 @@ import { AuthRequest } from '../utils/RequestType';
 const authenticateToken = (req: AuthRequest, res: express.Response, next: express.NextFunction) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1]; // Format: "Bearer <token>"
+   
 
     if (!token) return res.sendStatus(401); // Unauthorized
 
 
 
     try {
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!);
-        req.user = decoded;
+        
+            const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string);
+           
+            req.user = decoded;
+        
+           
+           
+            
+        
+        } catch (error) {
+             if(error instanceof Error){
+                
+              return  res.json({message: error.message})
+            }
+        }
+        
         next();
-    } catch (err) {
-        return res.sendStatus(403);
-    }
-
 
 
 };
