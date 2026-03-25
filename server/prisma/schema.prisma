@@ -13,5 +13,6 @@ model User {
   password  String
   name      String
   createdAt DateTime @default(now())
+  refreshToken String?
 }
 
