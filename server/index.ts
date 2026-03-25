@@ -1,3 +1,15 @@
+// POST /org
+// GET /org/me
+// POST /org/members
+// GET /org/members
+
+
+// PATCH /org
+// DELETE /org
+// DELETE /org/members/:userId
+// PATCH /org/members/:userId/role
+
+
 import express from "express";
 import dotenv from 'dotenv'
 const app = express();
