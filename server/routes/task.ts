@@ -5,6 +5,8 @@ import GetTasks from "../controllers/Task/GetTask";
 import GetSingleTask from "../controllers/Task/GetSingleTaskDetails";
 import UpdateTask from "../controllers/Task/UpdateTask";
 import DeleteTask from "../controllers/Task/Delete";
+import AssignTask from "../controllers/Task/AssignTask";
+import UpdateTaskStatus from "../controllers/Task/UpdateStatus";
 
 const TaskRoute=express.Router();
 
@@ -13,5 +15,7 @@ TaskRoute.get('/',authenticateToken,GetTasks);
 TaskRoute.get('/:taskId',authenticateToken,GetSingleTask);
 TaskRoute.patch('/:taskId',authenticateToken,UpdateTask);
 TaskRoute.delete('/:taskId',authenticateToken,DeleteTask);
+TaskRoute.patch('/:taskId/assign',authenticateToken,AssignTask);
+TaskRoute.patch('/:taskId/status',authenticateToken,UpdateTaskStatus);
 
 export default TaskRoute;
