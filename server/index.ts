@@ -1,13 +1,57 @@
-// POST /org
-// GET /org/me
-// POST /org/members
-// GET /org/members
+// 1️⃣ Create Project
+// POST /projects
 
+// Body:
 
-// PATCH /org
-// DELETE /org
-// DELETE /org/members/:userId
-// PATCH /org/members/:userId/role
+// {
+//   "name": "Backend API"
+// }
+// 2️⃣ Get All Projects
+// GET /projects
+
+// 👉 current user's org ke saare projects
+
+// 3️⃣ Get Single Project
+// GET /projects/:projectId
+// 4️⃣ Update Project
+// PATCH /projects/:projectId
+// 5️⃣ Delete Project
+// DELETE /projects/:projectId
+// 📦 TASK APIs
+// 6️⃣ Create Task
+// POST /tasks
+
+// Body:
+
+// {
+//   "title": "Build login API",
+//   "description": "JWT + refresh token",
+//   "projectId": "projectId"
+// }
+// 7️⃣ Get Tasks (by project)
+// GET /tasks?projectId=xxx
+// 8️⃣ Get Single Task
+// GET /tasks/:taskId
+// 9️⃣ Update Task
+// PATCH /tasks/:taskId
+// 🔟 Delete Task
+// DELETE /tasks/:taskId
+// 1️⃣1️⃣ Assign Task
+// PATCH /tasks/:taskId/assign
+
+// Body:
+
+// {
+//   "userId": "userId"
+// }
+// 1️⃣2️⃣ Update Task Status
+// PATCH /tasks/:taskId/status
+
+// Body:
+
+// {
+//   "status": "IN_PROGRESS"
+// }
 
 
 import express from "express";
