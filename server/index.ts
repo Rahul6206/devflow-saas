@@ -66,8 +66,8 @@ const PORT = process.env.PORT || 3000;
 
 import router from "./routes/auth";
 import Orgrouter from "./routes/org";
-import CreateProject from "./controllers/Projets/CreateProject";
 import ProjetRoute from "./routes/projects";
+import TaskRoute from "./routes/task";
  
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -89,6 +89,7 @@ app.get("/", (req, res) => {
 app.use('/auth',router)
 app.use('/org',Orgrouter)
 app.use('/project',ProjetRoute)
+app.use('/task',TaskRoute)
 
 
 
