@@ -19,24 +19,30 @@ enum TaskStatus {
 }
 
 model User {
-  id             String        @id @default(uuid())
-  email          String        @unique
+  id             String   @id @default(uuid())
+  email          String   @unique
   password       String
   name           String
   refreshToken   String?
-  role           Role          @default(MEMBER)
-  organizationId String?
-  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+
+  // 🔥 Active org (switching ke liye)
+  activeOrganizationId String?
+  activeOrganization   Organization? @relation("ActiveOrg", fields: [activeOrganizationId], references: [id], onDelete: SetNull)
+
   tasks          Task[]
-  createdAt      DateTime      @default(now())
+  createdAt      DateTime @default(now())
 }
 
 model Organization {
-  id        String    @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
-  users     User[]
+
+  // 🔥 kisne create ki
+  ownerId   String
+  owner     User     @relation("OrgOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
   projects  Project[]
-  createdAt DateTime  @default(now())
+  createdAt DateTime @default(now())
 }
 
 model Project {
@@ -46,6 +52,8 @@ model Project {
   org       Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
   tasks     Task[]
   createdAt DateTime    @default(now())
+
+  @@index([orgId])
 }
 
 model Task {
@@ -61,4 +69,6 @@ model Task {
   assignee    User?       @relation(fields: [assignedTo], references: [id], onDelete: SetNull)
 
   createdAt   DateTime    @default(now())
+
+  @@index([projectId])
 }
