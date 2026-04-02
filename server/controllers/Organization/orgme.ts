@@ -13,7 +13,7 @@ const Orgme= async(req:AuthRequest,res:express.Response)=>{
         })
 
         if(!orgUserexist) return res.status(401).json({message: "user not exist"});
-        if(!orgUserexist.organizationId) return res.status(401).json({message: "organization not found"});
+        if(!orgUserexist.organizationId) return res.status(404).json({message: "Organization not found"});
         const OrgData= await prisma.organization.findUnique({
             where:{
                 id: orgUserexist.organizationId

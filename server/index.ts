@@ -1,68 +1,21 @@
-// 1️⃣ Create Project
-// POST /projects
 
-// Body:
-
-// {
-//   "name": "Backend API"
-// }
-// 2️⃣ Get All Projects
-// GET /projects
-
-// 👉 current user's org ke saare projects
-
-// 3️⃣ Get Single Project
-// GET /projects/:projectId
-// 4️⃣ Update Project
-// PATCH /projects/:projectId
-// 5️⃣ Delete Project
-// DELETE /projects/:projectId
-// 📦 TASK APIs
-// 6️⃣ Create Task
-// POST /tasks
-
-// Body:
-
-// {
-//   "title": "Build login API",
-//   "description": "JWT + refresh token",
-//   "projectId": "projectId"
-// }
-// 7️⃣ Get Tasks (by project)
-// GET /tasks?projectId=xxx
-// 8️⃣ Get Single Task
-// GET /tasks/:taskId
-// 9️⃣ Update Task
-// PATCH /tasks/:taskId
-// 🔟 Delete Task
-// DELETE /tasks/:taskId
-// 1️⃣1️⃣ Assign Task
-// PATCH /tasks/:taskId/assign
-
-// Body:
-
-// {
-//   "userId": "userId"
-// }
-// 1️⃣2️⃣ Update Task Status
-// PATCH /tasks/:taskId/status
-
-// Body:
-
-// {
-//   "status": "IN_PROGRESS"
-// }
-
-
+import cors from "cors";
 import express from "express";
 import dotenv from 'dotenv'
 
 //env
 dotenv.config();
 
+
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+//cors
+app.use(cors({
+  origin:"http://localhost:5173",
+  credentials:true
+}));
 
 import router from "./routes/auth";
 import Orgrouter from "./routes/org";
