@@ -199,7 +199,7 @@ const Organization = () => {
   if (!hasOrg) {
     return (
       <div className="flex items-center justify-center min-h-[70vh] animate-[fadeInUp_0.4s_ease]">
-        <div className="w-full max-w-md bg-[#1a1a2e] border border-white/[0.08] rounded-2xl p-8 shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)]">
+        <div className="w-full max-w-md bg-[#1a1a2e] border border-white/8 rounded-2xl p-8 shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)]">
           {/* Icon */}
           <div className="text-center mb-6">
             <div className="w-16 h-16 bg-linear-to-br from-[#6c63ff] to-[#a78bfa] rounded-xl inline-flex items-center justify-center text-white text-2xl mx-auto mb-4 shadow-[0_0_20px_rgba(108,99,255,0.3)]">
@@ -226,7 +226,7 @@ const Organization = () => {
                   value={orgName}
                   onChange={(e) => setOrgName(e.target.value)}
                   placeholder="e.g. Acme Corp, My Team"
-                  className="w-full py-3 pl-10 pr-4 bg-[#0f0f1a] border border-white/[0.08] rounded-lg text-[#e2e8f0] text-sm outline-none transition-all focus:border-[#6c63ff] focus:shadow-[0_0_0_3px_rgba(108,99,255,0.15)] placeholder:text-[#64748b]"
+                  className="w-full py-3 pl-10 pr-4 bg-[#0f0f1a] border border-white/8 rounded-lg text-[#e2e8f0] text-sm outline-none transition-all focus:border-[#6c63ff] focus:shadow-[0_0_0_3px_rgba(108,99,255,0.15)] placeholder:text-[#64748b]"
                 />
               </div>
             </div>
@@ -318,7 +318,7 @@ const Organization = () => {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsEditingName(true)}
-                className="flex items-center gap-1.5 px-3 py-2 bg-transparent border border-white/[0.08] rounded-lg text-[#94a3b8] text-sm font-medium cursor-pointer transition-all hover:bg-[#1f2b4d] hover:text-[#e2e8f0] hover:border-[rgba(108,99,255,0.5)]"
+                className="flex items-center gap-1.5 px-3 py-2 bg-transparent border border-white/8 rounded-lg text-[#94a3b8] text-sm font-medium cursor-pointer transition-all hover:bg-[#1f2b4d] hover:text-[#e2e8f0] hover:border-[rgba(108,99,255,0.5)]"
               >
                 <HiOutlinePencil />
                 Rename
@@ -338,7 +338,7 @@ const Organization = () => {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-[#1a1a2e] border border-white/[0.08] rounded-xl p-6 w-full max-w-sm shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] animate-[fadeInUp_0.2s_ease]">
+          <div className="bg-[#1a1a2e] border border-white/8 rounded-xl p-6 w-full max-w-sm shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] animate-[fadeInUp_0.2s_ease]">
             <div className="text-center">
               <div className="w-12 h-12 bg-red-500/10 text-red-500 rounded-xl flex items-center justify-center mx-auto mb-3 text-xl">
                 <HiOutlineTrash />
@@ -354,7 +354,7 @@ const Organization = () => {
               <div className="flex gap-3">
                 <button
                   onClick={() => setShowDeleteConfirm(false)}
-                  className="flex-1 py-2.5 bg-transparent border border-white/[0.08] rounded-lg text-[#94a3b8] text-sm font-medium cursor-pointer transition-all hover:bg-[#1f2b4d] hover:text-[#e2e8f0]"
+                  className="flex-1 py-2.5 bg-transparent border border-white/8 rounded-lg text-[#94a3b8] text-sm font-medium cursor-pointer transition-all hover:bg-[#1f2b4d] hover:text-[#e2e8f0]"
                 >
                   Cancel
                 </button>
@@ -371,8 +371,8 @@ const Organization = () => {
       )}
 
       {/* Members Section */}
-      <div className="bg-[#1a1a2e] border border-white/[0.08] rounded-xl overflow-hidden">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.08]">
+      <div className="bg-[#1a1a2e] border border-white/8 rounded-xl overflow-hidden">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/8">
           <div>
             <h3 className="text-base font-semibold text-[#e2e8f0]">
               Team Members
@@ -394,7 +394,7 @@ const Organization = () => {
 
         {/* Add Member Form */}
         {showAddMember && (
-          <div className="px-6 py-4 bg-[#0f0f1a]/50 border-b border-white/[0.08]">
+          <div className="px-6 py-4 bg-[#0f0f1a]/50 border-b border-white/8">
             <form
               onSubmit={handleAddMember}
               className="flex items-center gap-3"
@@ -406,7 +406,7 @@ const Organization = () => {
                   value={memberEmail}
                   onChange={(e) => setMemberEmail(e.target.value)}
                   placeholder="Enter member's email address"
-                  className="w-full py-2.5 pl-10 pr-4 bg-[#1a1a2e] border border-white/[0.08] rounded-lg text-[#e2e8f0] text-sm outline-none transition-all focus:border-[#6c63ff] focus:shadow-[0_0_0_2px_rgba(108,99,255,0.12)] placeholder:text-[#64748b]"
+                  className="w-full py-2.5 pl-10 pr-4 bg-[#1a1a2e] border border-white/8 rounded-lg text-[#e2e8f0] text-sm outline-none transition-all focus:border-[#6c63ff] focus:shadow-[0_0_0_2px_rgba(108,99,255,0.12)] placeholder:text-[#64748b]"
                   autoFocus
                 />
               </div>
@@ -430,7 +430,7 @@ const Organization = () => {
                   setShowAddMember(false);
                   setMemberEmail("");
                 }}
-                className="w-9 h-9 bg-transparent border border-white/[0.08] rounded-lg flex items-center justify-center text-[#94a3b8] cursor-pointer transition-all hover:bg-[#1f2b4d] hover:text-[#e2e8f0]"
+                className="w-9 h-9 bg-transparent border border-white/8 rounded-lg flex items-center justify-center text-[#94a3b8] cursor-pointer transition-all hover:bg-[#1f2b4d] hover:text-[#e2e8f0]"
               >
                 <HiOutlineX />
               </button>
@@ -438,89 +438,108 @@ const Organization = () => {
           </div>
         )}
 
-        {/* Members List */}
-        <div className="divide-y divide-white/[0.06]">
-          {members.length === 0 ? (
-            <div className="px-6 py-10 text-center text-[#64748b]">
-              <HiOutlineUserAdd className="text-3xl mx-auto mb-2 opacity-40" />
-              <p className="text-sm text-[#94a3b8]">No members yet</p>
-              <p className="text-xs">Invite team members to collaborate</p>
-            </div>
-          ) : (
-            members.map((member) => (
-              <div
-                key={member.id}
-                className="flex items-center justify-between px-6 py-4 hover:bg-white/[0.02] transition-colors"
-              >
-                {/* Left — Avatar + Info */}
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-linear-to-br from-[#6c63ff] to-[#a78bfa] rounded-full flex items-center justify-center text-white text-sm font-semibold shrink-0">
-                    {member.name?.charAt(0)?.toUpperCase() || "U"}
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-[#e2e8f0]">
-                        {member.name}
-                      </span>
-                      {member.id === user?.id && (
-                        <span className="text-[0.65rem] px-1.5 py-0.5 bg-[#6c63ff]/15 text-[#a78bfa] rounded font-medium">
-                          You
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-xs text-[#64748b]">
-                      {member.email}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Right — Role + Actions */}
-                <div className="flex items-center gap-3">
-                  <span
-                    className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-                      member.role === "ADMIN"
-                        ? "bg-[#a78bfa]/15 text-[#a78bfa]"
-                        : "bg-white/[0.06] text-[#94a3b8]"
-                    }`}
+        {/* Members Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-white/8 text-xs uppercase tracking-wider text-[#64748b]">
+                <th className="px-6 py-4 font-medium">User</th>
+                <th className="px-6 py-4 font-medium">Role</th>
+                <th className="px-6 py-4 font-medium text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/6">
+              {members.length === 0 ? (
+                <tr>
+                  <td colSpan="3" className="px-6 py-10 text-center text-[#64748b]">
+                    <HiOutlineUserAdd className="text-3xl mx-auto mb-2 opacity-40" />
+                    <p className="text-sm text-[#94a3b8]">No members yet</p>
+                    <p className="text-xs">Invite team members to collaborate</p>
+                  </td>
+                </tr>
+              ) : (
+                members.map((member) => (
+                  <tr
+                    key={member.id}
+                    className="hover:bg-white/5 transition-colors"
                   >
-                    {member.role}
-                  </span>
+                    {/* User Info */}
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-linear-to-br from-[#6c63ff] to-[#a78bfa] rounded-full flex items-center justify-center text-white text-sm font-semibold shrink-0">
+                          {member.name?.charAt(0)?.toUpperCase() || "U"}
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium text-[#e2e8f0]">
+                              {member.name}
+                            </span>
+                            {member.id === user?.id && (
+                              <span className="text-[0.65rem] px-1.5 py-0.5 bg-[#6c63ff]/15 text-[#a78bfa] rounded font-medium">
+                                You
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-xs text-[#64748b]">
+                            {member.email}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
 
-                  {/* Admin actions — only show for other members */}
-                  {isAdmin && member.id !== user?.id && (
-                    <div className="flex items-center gap-1">
-                      <button
-                        onClick={() =>
-                          handleChangeRole(
-                            member.id,
-                            member.role,
-                            member.name
-                          )
-                        }
-                        title={
+                    {/* Role */}
+                    <td className="px-6 py-4">
+                      <span
+                        className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
                           member.role === "ADMIN"
-                            ? "Demote to Member"
-                            : "Promote to Admin"
-                        }
-                        className="w-8 h-8 bg-transparent border border-white/[0.08] rounded-lg flex items-center justify-center text-[#94a3b8] cursor-pointer transition-all hover:bg-[#6c63ff]/10 hover:text-[#a78bfa] hover:border-[#6c63ff]/30"
+                            ? "bg-[#a78bfa]/15 text-[#a78bfa]"
+                            : "bg-white/10 text-[#94a3b8]"
+                        }`}
                       >
-                        <HiOutlineShieldCheck className="text-sm" />
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleRemoveMember(member.id, member.name)
-                        }
-                        title="Remove member"
-                        className="w-8 h-8 bg-transparent border border-white/[0.08] rounded-lg flex items-center justify-center text-[#94a3b8] cursor-pointer transition-all hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/30"
-                      >
-                        <HiOutlineTrash className="text-sm" />
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))
-          )}
+                        {member.role}
+                      </span>
+                    </td>
+
+                    {/* Actions */}
+                    <td className="px-6 py-4">
+                      <div className="flex items-center justify-end gap-2">
+                        {isAdmin && member.id !== user?.id && (
+                          <>
+                            <button
+                              onClick={() =>
+                                handleChangeRole(
+                                  member.id,
+                                  member.role,
+                                  member.name
+                                )
+                              }
+                              title={
+                                member.role === "ADMIN"
+                                  ? "Demote to Member"
+                                  : "Promote to Admin"
+                              }
+                              className="w-8 h-8 bg-transparent border border-white/8 rounded-lg flex items-center justify-center text-[#94a3b8] cursor-pointer transition-all hover:bg-[#6c63ff]/10 hover:text-[#a78bfa] hover:border-[#6c63ff]/30"
+                            >
+                              <HiOutlineShieldCheck className="text-sm" />
+                            </button>
+                            <button
+                              onClick={() =>
+                                handleRemoveMember(member.id, member.name)
+                              }
+                              title="Remove member"
+                              className="w-8 h-8 bg-transparent border border-white/8 rounded-lg flex items-center justify-center text-[#94a3b8] cursor-pointer transition-all hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/30"
+                            >
+                              <HiOutlineTrash className="text-sm" />
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
