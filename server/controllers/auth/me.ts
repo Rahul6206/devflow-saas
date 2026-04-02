@@ -14,6 +14,8 @@ const Me = async (req: AuthRequest, res: Response) => {
         id: true,
         email: true,
         name: true,
+        role: true,
+        organizationId: true,
         createdAt: true
       }
     });
