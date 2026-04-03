@@ -34,6 +34,7 @@ model User {
   organizationId String?
   organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
   tasks          Task[]
+  notifications  Notification[]
   createdAt      DateTime      @default(now())
 }
 
@@ -68,4 +69,16 @@ model Task {
   assignee    User?       @relation(fields: [assignedTo], references: [id], onDelete: SetNull)
 
   createdAt   DateTime    @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message   String
+  isRead    Boolean  @default(false)
+  
+  taskId    String?
+  
+  createdAt DateTime @default(now())
 }

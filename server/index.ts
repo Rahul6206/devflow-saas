@@ -21,6 +21,7 @@ import router from "./routes/auth";
 import Orgrouter from "./routes/org";
 import ProjetRoute from "./routes/projects";
 import TaskRoute from "./routes/task";
+import NotificationRoute from "./routes/notification";
  
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -43,6 +44,7 @@ app.use('/auth',router)
 app.use('/org',Orgrouter)
 app.use('/project',ProjetRoute)
 app.use('/task',TaskRoute)
+app.use('/notifications', NotificationRoute)
 
 
 

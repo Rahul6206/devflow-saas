@@ -77,6 +77,17 @@ const AssignTask = async (req: AuthRequest, res: express.Response) => {
       }
     });
 
+    // Create Notification for the assigned user
+    if (targetUser.id !== currentUserId) {
+      await prisma.notification.create({
+        data: {
+          userId: targetUser.id,
+          message: "A task has been assigned to you.",
+          taskId: taskId
+        }
+      });
+    }
+
     return res.status(200).json({
       message: "Task assigned successfully",
       task: updatedTask
