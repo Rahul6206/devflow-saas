@@ -40,7 +40,9 @@ const Login = async (req: express.Request, res: express.Response) => {
                 user: {
                     id: user.id,
                     email: user.email,
-                    name: user.name
+                    name: user.name,
+                    role: user.role,
+                    organizationId: user.organizationId,
                 },accessToken: accesstoken, refreshToken: Reftestoken
             });
         } else {
