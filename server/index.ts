@@ -22,6 +22,7 @@ import Orgrouter from "./routes/org";
 import ProjetRoute from "./routes/projects";
 import TaskRoute from "./routes/task";
 import NotificationRoute from "./routes/notification";
+import SearchRoute from "./routes/search";
  
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -45,6 +46,7 @@ app.use('/org',Orgrouter)
 app.use('/project',ProjetRoute)
 app.use('/task',TaskRoute)
 app.use('/notifications', NotificationRoute)
+app.use('/search', SearchRoute)
 
 
 
