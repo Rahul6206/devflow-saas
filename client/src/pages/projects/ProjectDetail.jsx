@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { HiOutlineChevronLeft, HiOutlinePlus } from "react-icons/hi";
+import { useEffect, useState, useMemo } from "react";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { HiOutlineChevronLeft, HiOutlinePlus, HiOutlineFilter } from "react-icons/hi";
 import toast from "react-hot-toast";
 
 import useOrgStore from "../../store/orgStore";
+import useAuthStore from "../../store/authStore";
 import useTaskStore from "../../store/taskStore";
 import { getProject } from "../../api/projectApi";
 import { getTasks, updateTaskStatus } from "../../api/taskApi";
@@ -15,6 +16,8 @@ import TaskDetailModal from "../../components/projects/TaskDetailModal";
 const ProjectDetail = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { user } = useAuthStore();
   const { members } = useOrgStore(); // from dashboard or org page
   const { tasks, setTasks, updateTaskInList, removeTask } = useTaskStore();
 
@@ -24,6 +27,10 @@ const ProjectDetail = () => {
   // Modals state
   const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
   const [activeTask, setActiveTask] = useState(null);
+
+  // Filters State
+  const [filterAssignee, setFilterAssignee] = useState("ALL"); // "ALL" | "ME"
+  const [filterPriority, setFilterPriority] = useState("ALL"); // "ALL" | "HIGH" | "MEDIUM" | "LOW"
 
   useEffect(() => {
     fetchProjectData();
@@ -41,6 +48,16 @@ const ProjectDetail = () => {
       
       const tasksData = tasksRes.data?.tasks || tasksRes.data || [];
       setTasks(Array.isArray(tasksData) ? tasksData : []);
+
+      // Check URL for deep-linked task
+      const queryTaskId = searchParams.get('taskId');
+      if (queryTaskId) {
+        const foundTask = tasksData.find(t => t.id === queryTaskId);
+        if (foundTask) setActiveTask(foundTask);
+        // Clear param so it doesn't pop again on refresh unless intended
+        setSearchParams({});
+      }
+
     } catch (error) {
       toast.error("Failed to load project details");
       navigate("/projects");
@@ -48,6 +65,17 @@ const ProjectDetail = () => {
       setIsLoading(false);
     }
   };
+
+  // Memoized filter logic
+  const filteredTasks = useMemo(() => {
+    return tasks.filter(task => {
+      // Assignee Filter
+      if (filterAssignee === "ME" && task.assignedTo !== user?.id) return false;
+      // Priority Filter
+      if (filterPriority !== "ALL" && task.priority !== filterPriority) return false;
+      return true;
+    });
+  }, [tasks, filterAssignee, filterPriority, user]);
 
   const handleTaskCreated = (newTask) => {
     // Add to local state (append at the beginning or end)
@@ -98,7 +126,7 @@ const ProjectDetail = () => {
   return (
     <div className="animate-[fadeInUp_0.4s_ease] h-[calc(100vh-80px)] flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6 shrink-0">
+      <div className="flex items-center justify-between mb-4 shrink-0">
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/projects")}
@@ -124,9 +152,42 @@ const ProjectDetail = () => {
         </button>
       </div>
 
+      {/* Filter Bar */}
+      <div className="flex items-center gap-4 mb-6 pb-4 border-b border-white/5 shrink-0 px-1">
+        <div className="flex items-center gap-2 text-sm text-[#94a3b8] font-medium">
+          <HiOutlineFilter className="text-lg" />
+          Filters:
+        </div>
+        
+        {/* Assignee FilterToggle */}
+        <button
+          onClick={() => setFilterAssignee(filterAssignee === "ALL" ? "ME" : "ALL")}
+          className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all border ${
+            filterAssignee === "ME" 
+              ? "bg-[#6c63ff]/20 text-[#a78bfa] border-[#6c63ff]/50" 
+              : "bg-[#1a1a2e] text-[#64748b] border-white/10 hover:bg-white/5"
+          }`}
+        >
+          Only My Tasks
+        </button>
+
+        {/* Priority Filter */}
+        <select
+          value={filterPriority}
+          onChange={(e) => setFilterPriority(e.target.value)}
+          className="bg-[#1a1a2e] border border-white/10 text-[#e2e8f0] text-xs font-bold py-1.5 px-3 rounded-md outline-none cursor-pointer hover:border-white/20 transition-colors"
+        >
+          <option value="ALL">All Priorities</option>
+          <option value="HIGH">High Priority</option>
+          <option value="MEDIUM">Medium Priority</option>
+          <option value="LOW">Low Priority</option>
+        </select>
+      </div>
+
       {/* Board Layout area */}
       <div className="flex-1 overflow-hidden">
          <KanbanBoard 
+           tasks={filteredTasks}
            onTaskClick={(task) => setActiveTask(task)} 
            onTaskMove={handleTaskMove}
          />

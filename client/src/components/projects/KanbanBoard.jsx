@@ -1,10 +1,7 @@
 import { useMemo } from "react";
 import KanbanColumn from "./KanbanColumn";
-import useTaskStore from "../../store/taskStore";
 
-const KanbanBoard = ({ onTaskClick, onTaskMove }) => {
-  const { tasks } = useTaskStore();
-
+const KanbanBoard = ({ tasks, onTaskClick, onTaskMove }) => {
   // Group tasks by status
   const columns = useMemo(() => {
     const defaultCols = {
