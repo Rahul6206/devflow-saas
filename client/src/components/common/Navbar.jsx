@@ -5,6 +5,7 @@ import useAuthStore from "../../store/authStore";
 import { getNotifications, markNotificationsRead } from "../../api/notificationApi";
 import { globalSearch } from "../../api/searchApi";
 import ProfileModal from "./ProfileModal";
+import { logoutUser } from "../../api/authApi";
 
 // Map route paths to page titles
 const pageTitles = {
@@ -16,7 +17,21 @@ const pageTitles = {
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useAuthStore();
+  const { user, logout: clearAuth } = useAuthStore();
+  
+ 
+  const handleLogout = async () => {
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
+      await logoutUser(refreshToken);
+    } catch (err) {
+      // Even if API fails, clear local auth
+    } finally {
+      clearAuth();
+      toast.success("Logged out successfully");
+      navigate("/login");
+    }
+  };
   
   const [notifications, setNotifications] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -266,6 +281,13 @@ const Navbar = () => {
                 className="w-full text-left px-4 py-2 text-sm text-[#e2e8f0] hover:bg-white/5 transition-colors flex items-center gap-2"
               >
                 Edit Profile
+              </button>
+              <div className="h-px bg-white/10 my-1"></div>
+              <button
+                onClick={handleLogout}
+                className="w-full text-left px-4 py-2 text-sm text-[#f87171] hover:bg-red-500/10 transition-colors flex items-center gap-2"
+              >
+                Log Out
               </button>
             </div>
           )}
