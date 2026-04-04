@@ -35,6 +35,7 @@ model User {
   organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
   tasks          Task[]
   notifications  Notification[]
+  comments       Comment[]
   createdAt      DateTime      @default(now())
 }
 
@@ -68,6 +69,8 @@ model Task {
   assignedTo  String?
   assignee    User?       @relation(fields: [assignedTo], references: [id], onDelete: SetNull)
 
+  comments    Comment[]
+
   createdAt   DateTime    @default(now())
 }
 
@@ -79,6 +82,19 @@ model Notification {
   isRead    Boolean  @default(false)
   
   taskId    String?
+  
+  createdAt DateTime @default(now())
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  text      String
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   
   createdAt DateTime @default(now())
 }

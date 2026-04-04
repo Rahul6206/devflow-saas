@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { HiOutlineX, HiOutlineTrash, HiOutlineCheck } from "react-icons/hi";
 import toast from "react-hot-toast";
-import { updateTask, updateTaskStatus, assignTask, deleteTask } from "../../api/taskApi";
+import { updateTask, updateTaskStatus, assignTask, deleteTask, getComments, addComment } from "../../api/taskApi";
 import useAuthStore from "../../store/authStore";
 
 const TaskDetailModal = ({ isOpen, onClose, task, projectId, members, onSuccess, onDelete }) => {
@@ -17,15 +17,30 @@ const TaskDetailModal = ({ isOpen, onClose, task, projectId, members, onSuccess,
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // Comments state
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [isCommenting, setIsCommenting] = useState(false);
+
+  const fetchComments = async (taskId) => {
+    try {
+      const res = await getComments(taskId);
+      setComments(res.data.comments || []);
+    } catch (err) {
+      console.error("Failed to fetch comments", err);
+    }
+  };
+
   useEffect(() => {
-    if (task) {
+    if (task && isOpen) {
       setTitle(task.title || "");
       setDescription(task.description || "");
       setStatus(task.status || "TODO");
       setPriority(task.priority || "MEDIUM");
       setAssigneeId(task.assignedTo || "");
+      fetchComments(task.id);
     }
-  }, [task]);
+  }, [task, isOpen]);
 
   if (!isOpen || !task) return null;
 
@@ -86,6 +101,21 @@ const TaskDetailModal = ({ isOpen, onClose, task, projectId, members, onSuccess,
     }
   };
 
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    if(!newComment.trim()) return;
+    setIsCommenting(true);
+    try {
+      const res = await addComment(task.id, newComment.trim());
+      setComments([...comments, res.data.comment]);
+      setNewComment("");
+    } catch (error) {
+      toast.error("Failed to add comment");
+    } finally {
+      setIsCommenting(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 animate-[fadeIn_0.2s_ease]">
       <div className="bg-[#1a1a2e] border border-white/8 rounded-xl w-full max-w-2xl max-h-[90vh] shadow-[0_10px_30px_-5px_rgba(0,0,0,0.4)] animate-[slideUp_0.3s_ease] flex flex-col">
@@ -133,14 +163,63 @@ const TaskDetailModal = ({ isOpen, onClose, task, projectId, members, onSuccess,
               />
             </div>
             
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col min-h-[150px]">
               <label className="text-sm font-medium text-[#94a3b8] mb-2">Description</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Add details, links, or context..."
-                className="w-full flex-1 min-h-[150px] p-3 bg-[#0f0f1a] border border-white/10 rounded-lg text-[#e2e8f0] text-sm outline-none transition-all focus:border-[#6c63ff] resize-none"
+                className="w-full h-[120px] p-3 bg-[#0f0f1a] border border-white/10 rounded-lg text-[#e2e8f0] text-sm outline-none transition-all focus:border-[#6c63ff] resize-none mb-6"
               />
+
+              {/* Discussion Section */}
+              <div className="mt-2 flex flex-col flex-1 border-t border-white/5 pt-6">
+                <label className="text-sm font-bold text-[#e2e8f0] mb-4 flex items-center gap-2">
+                  Discussion <span className="bg-white/10 text-xs px-2 py-0.5 rounded-full">{comments.length}</span>
+                </label>
+                
+                {/* Comments Feed */}
+                <div className="flex-1 overflow-y-auto pr-2 mb-4 space-y-4 max-h-[200px]">
+                  {comments.length === 0 ? (
+                    <p className="text-xs text-[#64748b] italic">No comments yet. Start the conversation!</p>
+                  ) : (
+                    comments.map(comment => (
+                      <div key={comment.id} className="flex gap-3 animate-[fadeIn_0.2s_ease]">
+                        <div className="w-7 h-7 rounded-full bg-linear-to-br from-[#6c63ff]/20 to-[#a78bfa]/20 border border-[#6c63ff]/30 flex items-center justify-center text-[0.65rem] font-bold text-[#e2e8f0] shrink-0 mt-0.5">
+                          {comment.user?.name?.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="flex-1 bg-[#0f0f1a] p-3 rounded-tr-xl rounded-br-xl rounded-bl-xl border border-white/5 relative group">
+                           <div className="flex items-center justify-between mb-1">
+                             <span className="text-xs font-semibold text-[#a78bfa]">{comment.user?.name}</span>
+                             <span className="text-[0.6rem] text-[#64748b]">{new Date(comment.createdAt).toLocaleDateString()}</span>
+                           </div>
+                           <p className="text-xs text-[#e2e8f0] leading-relaxed whitespace-pre-wrap">{comment.text}</p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                {/* Comment Input */}
+                <form onSubmit={handleCommentSubmit} className="mt-auto relative">
+                  <div className="w-8 h-8 absolute left-2 top-2 rounded-full bg-linear-to-br from-[#6c63ff] to-[#a78bfa] flex items-center justify-center text-[0.65rem] font-bold text-white shrink-0 shadow-sm pointer-events-none">
+                    {user?.name?.charAt(0).toUpperCase()}
+                  </div>
+                  <input
+                    type="text"
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    placeholder="Ask a question or post an update..."
+                    disabled={isCommenting}
+                    className="w-full py-2.5 pl-12 pr-4 bg-[#0f0f1a] border border-white/10 rounded-full text-[#e2e8f0] text-xs outline-none transition-all focus:border-[#6c63ff] focus:shadow-[0_0_0_2px_rgba(108,99,255,0.15)] disabled:opacity-50"
+                  />
+                  <button 
+                    type="submit" 
+                    disabled={isCommenting || !newComment.trim()}
+                    className="hidden"
+                  >Submit</button>
+                </form>
+              </div>
             </div>
           </div>
 
