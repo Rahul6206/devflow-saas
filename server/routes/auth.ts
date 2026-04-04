@@ -6,9 +6,11 @@ import LogOut from '../controllers/auth/logout';
 import Me from '../controllers/auth/me';
 import { updateProfile } from '../controllers/auth/updateProfile';
 import { googleLogin } from '../controllers/auth/googleLogin';
+import sendOtp from '../controllers/auth/sendOtp';
 import authenticateToken from '../middlewares/authToken';
 const router=express.Router();
 
+router.post('/send-otp',sendOtp);
 router.post('/signup',signup); 
 router.post('/login',Login);
 router.post('/google',googleLogin);

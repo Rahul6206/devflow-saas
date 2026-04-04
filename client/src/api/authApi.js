@@ -15,6 +15,10 @@ export const googleAuth = (credential) => {
   return API.post("/auth/google", { credential });
 };
 
+export const sendOtp = (userData) => {
+  return API.post("/auth/send-otp", userData);
+};
+
 // Logout user (backend expects { token } = refreshToken)
 export const logoutUser = (refreshToken) => {
   return API.delete("/auth/logout", { data: { token: refreshToken } });
