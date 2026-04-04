@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineMail } from "react-icons/hi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
-import { BsLightningCharge } from "react-icons/bs";
+import { BsLightningCharge, BsGoogle } from "react-icons/bs";
+import { GoogleLogin } from "@react-oauth/google";
 import toast from "react-hot-toast";
-import { loginUser } from "../../api/authApi";
+import { loginUser, googleAuth } from "../../api/authApi";
 import useAuthStore from "../../store/authStore";
 
 const Login = () => {
@@ -52,6 +53,20 @@ const Login = () => {
         "Login failed. Please try again.";
       setError(message);
       toast.error(message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setIsLoading(true);
+    try {
+      const { data } = await googleAuth(credentialResponse.credential);
+      setAuth(data.user, data.tokens.accessToken, data.tokens.refreshToken);
+      toast.success(`Welcome, ${data.user.name}!`);
+      navigate("/dashboard");
+    } catch (err) {
+      toast.error("Google login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -125,6 +140,25 @@ const Login = () => {
         >
           {isLoading ? <span className="btn-spinner"></span> : "Sign In"}
         </button>
+
+        <div className="relative flex items-center py-4 my-2">
+          <div className="flex-grow border-t border-white/10"></div>
+          <span className="flex-shrink-0 mx-4 text-[#64748b] text-sm">or</span>
+          <div className="flex-grow border-t border-white/10"></div>
+        </div>
+
+        <div className="flex justify-center w-full">
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => {
+              toast.error("Google Login Failed");
+            }}
+            theme="filled_black"
+            shape="rectangular"
+            text="signin_with"
+            width="320"
+          />
+        </div>
       </form>
 
       {/* Footer */}

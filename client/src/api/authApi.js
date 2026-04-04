@@ -10,6 +10,11 @@ export const loginUser = (credentials) => {
   return API.post("/auth/login", credentials);
 };
 
+// Google Login
+export const googleAuth = (credential) => {
+  return API.post("/auth/google", { credential });
+};
+
 // Logout user (backend expects { token } = refreshToken)
 export const logoutUser = (refreshToken) => {
   return API.delete("/auth/logout", { data: { token: refreshToken } });
