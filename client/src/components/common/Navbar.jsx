@@ -4,6 +4,7 @@ import { HiOutlineSearch, HiOutlineBell, HiOutlineCheck } from "react-icons/hi";
 import useAuthStore from "../../store/authStore";
 import { getNotifications, markNotificationsRead } from "../../api/notificationApi";
 import { globalSearch } from "../../api/searchApi";
+import ProfileModal from "./ProfileModal";
 
 // Map route paths to page titles
 const pageTitles = {
@@ -20,6 +21,11 @@ const Navbar = () => {
   const [notifications, setNotifications] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  
+  // Profile menu state
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const profileMenuRef = useRef(null);
   
   // Search state
   const [searchQuery, setSearchQuery] = useState("");
@@ -84,6 +90,9 @@ const Navbar = () => {
       }
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setIsSearchOpen(false);
+      }
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+        setIsProfileMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -232,11 +241,41 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* User avatar */}
-        <div className="navbar-avatar" title={user?.name || "User"}>
-          {user?.name?.charAt(0)?.toUpperCase() || "U"}
+        {/* User avatar / Profile Options */}
+        <div className="relative" ref={profileMenuRef}>
+          <div 
+            className="navbar-avatar" 
+            title={user?.name || "User"}
+            onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+          >
+            {user?.name?.charAt(0)?.toUpperCase() || "U"}
+          </div>
+
+          {/* Profile Dropdown */}
+          {isProfileMenuOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-[#1a1a2e] border border-white/10 rounded-xl shadow-2xl py-2 z-50 animate-[fadeIn_0.1s_ease]">
+              <div className="px-4 py-2 border-b border-white/5 mb-1 cursor-default">
+                <p className="text-sm font-semibold text-white truncate">{user?.name}</p>
+                <p className="text-xs text-[#94a3b8] truncate">{user?.email}</p>
+              </div>
+              <button
+                onClick={() => {
+                  setIsProfileMenuOpen(false);
+                  setIsProfileModalOpen(true);
+                }}
+                className="w-full text-left px-4 py-2 text-sm text-[#e2e8f0] hover:bg-white/5 transition-colors flex items-center gap-2"
+              >
+                Edit Profile
+              </button>
+            </div>
+          )}
         </div>
       </div>
+
+      <ProfileModal 
+        isOpen={isProfileModalOpen} 
+        onClose={() => setIsProfileModalOpen(false)} 
+      />
     </header>
   );
 };

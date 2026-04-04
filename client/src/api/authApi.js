@@ -24,3 +24,8 @@ export const getMe = () => {
 export const refreshAccessToken = (refreshToken) => {
   return API.post("/auth/refresh", { token: refreshToken });
 };
+
+// Update user profile
+export const updateProfile = (data) => {
+  return API.patch("/auth/profile", data);
+};
