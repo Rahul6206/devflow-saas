@@ -114,9 +114,9 @@ const Navbar = () => {
       <div className="navbar-right">
         {/* Search */}
         <div className="relative hidden md:block" ref={searchRef}>
-          <div className="navbar-search">
+          <div className="navbar-search relative flex items-center">
             {isSearching ? (
-              <div className="w-4 h-4 border-2 border-[#6c63ff]/30 border-t-[#6c63ff] rounded-full animate-spin ml-2 mr-1" />
+              <div className="absolute left-[12px] w-4 h-4 border-2 border-[#6c63ff]/30 border-t-[#6c63ff] rounded-full animate-spin pointer-events-none" />
             ) : (
               <HiOutlineSearch className="navbar-search-icon" />
             )}
@@ -125,8 +125,9 @@ const Navbar = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => { if (searchQuery.length > 1) setIsSearchOpen(true); }}
-              className="navbar-search-input"
+              className="navbar-search-input text-white flex-1 min-w-0 bg-[#0f0f1a]"
               placeholder="Search projects, tasks..."
+              style={{ color: '#e2e8f0', lineHeight: 'normal' }}
             />
           </div>
 

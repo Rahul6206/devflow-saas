@@ -17,7 +17,7 @@ const TaskCard = ({ task, onClick, onDragStart }) => {
       draggable
       onDragStart={(e) => onDragStart(e, task.id)}
       onClick={() => onClick(task)}
-      className={`bg-[#1a1a2e] border ${isAssignedToMe ? 'border-[#6c63ff]/30 shadow-[0_0_10px_rgba(108,99,255,0.1)]' : 'border-white/8 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.3)]'} rounded-lg p-3.5 cursor-grab active:cursor-grabbing hover:border-white/20 transition-all hover:-translate-y-0.5 relative overflow-hidden`}
+      className={`shrink-0 bg-[#1a1a2e] border ${isAssignedToMe ? 'border-[#6c63ff]/30 shadow-[0_0_10px_rgba(108,99,255,0.1)]' : 'border-white/8 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.3)]'} rounded-lg p-3.5 cursor-grab active:cursor-grabbing hover:border-white/20 transition-all hover:-translate-y-0.5 relative overflow-hidden`}
     >
       {/* Assigned to me indicator strip */}
       {isAssignedToMe && (

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   HiOutlineFolder,
   HiOutlineClipboardCheck,
@@ -9,8 +10,10 @@ import useAuthStore from "../../store/authStore";
 import { getProjects } from "../../api/projectApi";
 import { getMyOrg, getOrgMembers } from "../../api/orgApi";
 import useOrgStore from "../../store/orgStore";
+import CreateProjectModal from "../../components/projects/CreateProjectModal";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const { user } = useAuthStore();
   const { organization, setOrganization, setMembers } = useOrgStore();
   const [stats, setStats] = useState({
@@ -21,50 +24,52 @@ const Dashboard = () => {
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [hasOrg, setHasOrg] = useState(false);
+  const [isCreateProjectOpen, setIsCreateProjectOpen] = useState(false);
+
+  const fetchDashboardData = async () => {
+    try {
+      setIsLoading(true);
+      // Step 1: Check if user has an organization
+      const orgRes = await getMyOrg();
+      if (orgRes.data) {
+        setOrganization(orgRes.data);
+        setHasOrg(true);
+
+        // Step 2: Only fetch projects & members if user has an org
+        const [projRes, memberRes] = await Promise.all([
+          getProjects(),
+          getOrgMembers(),
+        ]);
+
+        const projectList = projRes.data?.projects || projRes.data || [];
+        setProjects(Array.isArray(projectList) ? projectList : []);
+
+        const memberList = memberRes.data?.members || memberRes.data || [];
+        setMembers(Array.isArray(memberList) ? memberList : []);
+
+        // Calculate stats
+        let totalTasks = 0;
+        projectList.forEach((proj) => {
+          totalTasks += proj._count?.tasks || 0;
+        });
+
+        setStats({
+          projects: projectList.length,
+          tasks: totalTasks,
+          members: memberList.length,
+        });
+      }
+    } catch (error) {
+      // 404 = user has no org
+      if (error.response?.status === 404) {
+        setHasOrg(false);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        // Step 1: Check if user has an organization
-        const orgRes = await getMyOrg();
-        if (orgRes.data) {
-          setOrganization(orgRes.data);
-          setHasOrg(true);
-
-          // Step 2: Only fetch projects & members if user has an org
-          const [projRes, memberRes] = await Promise.all([
-            getProjects(),
-            getOrgMembers(),
-          ]);
-
-          const projectList = projRes.data?.projects || projRes.data || [];
-          setProjects(Array.isArray(projectList) ? projectList : []);
-
-          const memberList = memberRes.data?.members || memberRes.data || [];
-          setMembers(Array.isArray(memberList) ? memberList : []);
-
-          // Calculate stats
-          let totalTasks = 0;
-          projectList.forEach((proj) => {
-            totalTasks += proj.tasks?.length || 0;
-          });
-
-          setStats({
-            projects: projectList.length,
-            tasks: totalTasks,
-            members: memberList.length,
-          });
-        }
-      } catch (error) {
-        // 404 = user has no org (expected for new users, not an error)
-        if (error.response?.status === 404) {
-          setHasOrg(false);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchDashboardData();
   }, []);
 
@@ -182,14 +187,18 @@ const Dashboard = () => {
             ) : (
               <ul className="project-list">
                 {projects.slice(0, 5).map((project) => (
-                  <li key={project.id} className="project-list-item">
+                  <li 
+                    key={project.id} 
+                    className="project-list-item cursor-pointer hover:bg-white/5 transition-colors"
+                    onClick={() => navigate(`/projects/${project.id}`)}
+                  >
                     <div className="project-list-icon">
                       <HiOutlineFolder />
                     </div>
                     <div className="project-list-info">
                       <span className="project-list-name">{project.name}</span>
                       <span className="project-list-tasks">
-                        {project.tasks?.length || 0} tasks
+                        {project._count?.tasks || 0} tasks
                       </span>
                     </div>
                   </li>
@@ -208,19 +217,22 @@ const Dashboard = () => {
             <div className="quick-actions">
               <button
                 className="quick-action-btn"
-                onClick={() => (window.location.href = "/projects")}
+                onClick={() => setIsCreateProjectOpen(true)}
               >
                 <HiOutlineFolder />
                 <span>New Project</span>
               </button>
               <button
                 className="quick-action-btn"
-                onClick={() => (window.location.href = "/organization")}
+                onClick={() => navigate("/organization")}
               >
                 <HiOutlineUserGroup />
                 <span>Manage Team</span>
               </button>
-              <button className="quick-action-btn">
+              <button 
+                className="quick-action-btn"
+                onClick={() => navigate("/projects")}
+              >
                 <HiOutlineClipboardCheck />
                 <span>Create Task</span>
               </button>
@@ -239,6 +251,12 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      <CreateProjectModal
+        isOpen={isCreateProjectOpen}
+        onClose={() => setIsCreateProjectOpen(false)}
+        onSuccess={() => fetchDashboardData()}
+      />
     </div>
   );
 };

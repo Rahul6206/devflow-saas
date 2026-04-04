@@ -26,6 +26,11 @@ const GetProjects = async (req: AuthRequest, res: express.Response) => {
       where: {
         orgId: user.organizationId
       },
+      include: {
+        _count: {
+          select: { tasks: true }
+        }
+      },
       orderBy: {
         createdAt: "desc"
       }
