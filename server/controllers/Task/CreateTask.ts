@@ -4,7 +4,7 @@ import { AuthRequest } from "../../utils/RequestType";
 
 const CreateTask = async (req: AuthRequest, res: express.Response) => {
   const userId = req.user?.id;
-  const { title, description, projectId } = req.body;
+  const { title, description, projectId, priority } = req.body;
 
   if (!userId) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -48,7 +48,8 @@ const CreateTask = async (req: AuthRequest, res: express.Response) => {
       data: {
         title,
         description,
-        projectId
+        projectId,
+        ...(priority && { priority })
       }
     });
 

@@ -7,7 +7,16 @@ export const registerUser = (userData) => {
 
 // Login user
 export const loginUser = (credentials) => {
-  return API.post("/auth/login", credentials);
+  return API.post("/auth/login", credentials); 
+};
+
+// Google Login
+export const googleAuth = (credential) => {
+  return API.post("/auth/google", { credential });
+};
+
+export const sendOtp = (userData) => {
+  return API.post("/auth/send-otp", userData);
 };
 
 // Logout user (backend expects { token } = refreshToken)
@@ -23,4 +32,9 @@ export const getMe = () => {
 // Refresh access token (backend expects { token } = refreshToken)
 export const refreshAccessToken = (refreshToken) => {
   return API.post("/auth/refresh", { token: refreshToken });
+};
+
+// Update user profile
+export const updateProfile = (data) => {
+  return API.patch("/auth/profile", data);
 };

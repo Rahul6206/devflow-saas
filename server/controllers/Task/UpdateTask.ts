@@ -5,7 +5,7 @@ import { AuthRequest } from "../../utils/RequestType";
 const UpdateTask = async (req: AuthRequest, res: express.Response) => {
   const userId = req.user?.id;
   const taskId = req.params.taskId;
-  const { title, description, status } = req.body;
+  const { title, description, status, priority } = req.body;
 
   if (!userId) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -48,7 +48,8 @@ const UpdateTask = async (req: AuthRequest, res: express.Response) => {
       data: {
         ...(title && { title }),
         ...(description !== undefined && { description }),
-        ...(status && { status })
+        ...(status && { status }),
+        ...(priority && { priority })
       }
     });
 

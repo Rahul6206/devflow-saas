@@ -35,3 +35,13 @@ export const assignTask = (taskId, userId) => {
 export const updateTaskStatus = (taskId, status) => {
   return API.patch(`/task/${taskId}/status`, { status });
 };
+
+// Add a comment to a task
+export const addComment = (taskId, text) => {
+  return API.post(`/task/${taskId}/comments`, { text });
+};
+
+// Get comments for a task
+export const getComments = (taskId) => {
+  return API.get(`/task/${taskId}/comments`);
+};

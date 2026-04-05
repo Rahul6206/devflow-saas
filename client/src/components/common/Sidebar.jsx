@@ -101,9 +101,9 @@ const Sidebar = () => {
           </div>
           {!collapsed && (
             <div className="sidebar-user-info">
-              <span className="sidebar-user-name">{user?.name || "User"}</span>
+              <span className="sidebar-user-name">{user?.name}</span>
               <span className="sidebar-user-email">
-                {user?.email || "user@email.com"}
+                {user?.email }
               </span>
             </div>
           )}

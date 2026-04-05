@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 
 //cors
 app.use(cors({
-  origin:"http://localhost:5173",
+  origin:process.env.CLIENT_URL,
   credentials:true
 }));
 
@@ -21,6 +21,8 @@ import router from "./routes/auth";
 import Orgrouter from "./routes/org";
 import ProjetRoute from "./routes/projects";
 import TaskRoute from "./routes/task";
+import NotificationRoute from "./routes/notification";
+import SearchRoute from "./routes/search";
  
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -43,6 +45,8 @@ app.use('/auth',router)
 app.use('/org',Orgrouter)
 app.use('/project',ProjetRoute)
 app.use('/task',TaskRoute)
+app.use('/notifications', NotificationRoute)
+app.use('/search', SearchRoute)
 
 
 
