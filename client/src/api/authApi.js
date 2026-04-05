@@ -7,7 +7,7 @@ export const registerUser = (userData) => {
 
 // Login user
 export const loginUser = (credentials) => {
-  return API.post("/auth/login", credentials);
+  return API.post("/auth/login", credentials); 
 };
 
 // Google Login

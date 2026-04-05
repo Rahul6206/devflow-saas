@@ -22,6 +22,7 @@ const Login = async (req: express.Request, res: express.Response) => {
         }
     })
     if (!user) return res.status(400).json({ error: "Cannot find user" });
+    if (!user.password) return res.status(400).json({ error: "Cannot find user" });
     try {
         const isvalidPassword = await bcrypt.compare(req.body.password, user.password)
 
