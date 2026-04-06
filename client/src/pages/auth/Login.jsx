@@ -142,9 +142,9 @@ const Login = () => {
         </button>
 
         <div className="relative flex items-center py-4 my-2">
-          <div className="flex-grow border-t border-white/10"></div>
-          <span className="flex-shrink-0 mx-4 text-[#64748b] text-sm">or</span>
-          <div className="flex-grow border-t border-white/10"></div>
+          <div className="grow border-t border-white/10"></div>
+          <span className="shrink-0 mx-4 text-[#64748b] text-sm">or</span>
+          <div className="grow border-t border-white/10"></div>
         </div>
 
         <div className="flex justify-center w-full">
