@@ -5,7 +5,7 @@ A modern, agile project management and developer workflow platform. Designed for
 ---
 
 ## 🔗 Live Demo
-> **Live Site:** [DevFlow](https://devflow-saas-coral.vercel.app/dashboard)  
+> **Live Site:** [DevFlow](https://devflow-saas-coral.vercel.app/)  
 > **API Server:** [Backend](https://devflow-saas.onrender.com)
 
 ---
