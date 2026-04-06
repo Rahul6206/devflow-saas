@@ -103,8 +103,8 @@ const Dashboard = () => {
       bg: "rgba(245, 158, 11, 0.1)",
     },
     {
-      label: "Active Sprint",
-      value: stats.projects > 0 ? "1" : "0",
+      label: "Active Sprints",
+      value: stats.projects > 0 ? Array.isArray(projects) ? projects.filter(p => new Date(p.createdAt) > new Date(Date.now() - 7*24*60*60*1000)).length : 0 : 0, 
       icon: HiOutlineLightningBolt,
       color: "#ec4899",
       bg: "rgba(236, 72, 153, 0.1)",
@@ -117,7 +117,7 @@ const Dashboard = () => {
       <div className="dashboard-greeting">
         <h2>
           {getGreeting()},{" "}
-          <span className="text-accent">{user?.name || "Developer"}</span> 👋
+          <span className="text-accent">{user?.name ? user.name : "Team Member"}</span> 👋
         </h2>
         <p>Here's what's happening with your projects today.</p>
       </div>
