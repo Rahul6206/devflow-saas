@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import useAuthStore from "../../store/authStore";
-import { getMe } from "../../api/authApi";
+import { getMe, refreshAccessToken } from "../../api/authApi";
 
 // On app load, verify the access token is still valid by calling /auth/me.
 // If the token is expired (401), the Axios interceptor will auto-refresh it.
 // If refresh also fails, the interceptor clears tokens & redirects to /login.
 const AuthProvider = ({ children }) => {
-  const { isAuthenticated, setUser, logout } = useAuthStore();
+  const { isAuthenticated, setUser, setAuth, logout, refreshToken } = useAuthStore();
   const [isVerifying, setIsVerifying] = useState(true);
 
   useEffect(() => {
@@ -17,18 +17,34 @@ const AuthProvider = ({ children }) => {
       }
 
       try {
-        // Call /auth/me — if 401, Axios interceptor handles refresh
+        // Try to get user info
         const { data } = await getMe();
         setUser(data);
       } catch (error) {
-        // Both access token and refresh token are invalid
-        logout();
+        // If 401, try to refresh token
+        if (error?.response?.status === 401 && refreshToken) {
+          try {
+            const { data: refreshData } = await refreshAccessToken(refreshToken);
+            setAuth(
+              refreshData.accessToken,
+              refreshData.refreshToken 
+            );
+            // Retry getMe with new token
+            const { data: userData } = await getMe();
+            setUser(userData);
+          } catch (refreshError) {
+            logout();
+          }
+        } else {
+          logout();
+        }
       } finally {
         setIsVerifying(false);
       }
     };
 
     verifyAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Show loading screen while verifying token
