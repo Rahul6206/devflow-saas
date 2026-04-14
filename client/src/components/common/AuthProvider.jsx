@@ -25,10 +25,7 @@ const AuthProvider = ({ children }) => {
         if (error?.response?.status === 401 && refreshToken) {
           try {
             const { data: refreshData } = await refreshAccessToken(refreshToken);
-            setAuth(
-              refreshData.accessToken,
-              refreshData.refreshToken 
-            );
+            setAuth(refreshData.accessToken );
             // Retry getMe with new token
             const { data: userData } = await getMe();
             setUser(userData);

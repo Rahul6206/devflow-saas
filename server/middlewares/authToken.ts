@@ -24,7 +24,7 @@ const authenticateToken = (req: AuthRequest, res: express.Response, next: expres
         } catch (error) {
              if(error instanceof Error){
                 
-              return  res.json({message: error.message})
+              return  res.status(401).json({message: error.message})
             }
         }
         
