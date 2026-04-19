@@ -1,6 +1,6 @@
 import express from "express";
-import { AuthRequest } from "../../utils/RequestType";
-import { prisma } from "../../lib/prisma";
+import { prisma } from "../../lib/prisma.js";
+import { AuthRequest } from "../../utils/RequestType.js";
 
 const RemoveMember = async (req: AuthRequest, res: express.Response) => {
   const currentUserId = req.user?.id;

@@ -1,7 +1,7 @@
 import express from "express";
-import { getNotifications } from "../controllers/Notification/GetNotifications";
-import { markNotificationsRead } from "../controllers/Notification/MarkAsRead";
-import authenticateToken from "../middlewares/authToken";
+import { getNotifications } from "../controllers/Notification/GetNotifications.js";
+import { markNotificationsRead } from "../controllers/Notification/MarkAsRead.js";
+import authenticateToken from "../middlewares/authToken.js";
 
 const router = express.Router();
 

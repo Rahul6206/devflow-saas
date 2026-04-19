@@ -1,6 +1,6 @@
 import express from "express";
-import authenticateToken from "../middlewares/authToken";
-import { globalSearch } from "../controllers/Search/GlobalSearch";
+import authenticateToken from "../middlewares/authToken.js";
+import { globalSearch } from "../controllers/Search/GlobalSearch.js";
 
 const router = express.Router();
 

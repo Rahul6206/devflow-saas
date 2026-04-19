@@ -1,7 +1,7 @@
 import express from "express";
-import { prisma } from "../../lib/prisma";
-import { AuthRequest } from "../../utils/RequestType";
-import { Role } from "../../generated/prisma/enums";
+import { prisma } from "../../lib/prisma.js";
+import { AuthRequest } from "../../utils/RequestType.js";
+import { Role } from "../../generated/prisma/enums.js";
 
 const ChangeMemberRole = async (req: AuthRequest, res: express.Response) => {
   const currentUserId = req.user?.id;

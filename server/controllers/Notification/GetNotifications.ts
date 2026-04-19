@@ -1,6 +1,6 @@
 import express from "express";
-import { prisma } from "../../lib/prisma";
-import { AuthRequest } from "../../utils/RequestType";
+import { prisma } from "../../lib/prisma.js";
+import { AuthRequest } from "../../utils/RequestType.js";
 
 export const getNotifications = async (req: AuthRequest, res: express.Response) => {
   const userId = req.user?.id;

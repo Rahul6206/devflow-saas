@@ -1,13 +1,13 @@
 import express from 'express'
-import CreateOrganization from '../controllers/Organization/Create';
-import authenticateToken from '../middlewares/authToken';
-import Orgme from '../controllers/Organization/orgme';
-import UpdateOrg from '../controllers/Organization/update';
-import AddMember from '../controllers/Organization/addMember';
-import GetOrgMembers from '../controllers/Organization/GetallMembers';
-import DeleteOrg from '../controllers/Organization/deleteOrg';
-import RemoveMember from '../controllers/Organization/removeMember';
-import ChangeMemberRole from '../controllers/Organization/ChangeRole';
+import CreateOrganization from '../controllers/Organization/Create.js';
+import authenticateToken from '../middlewares/authToken.js';
+import Orgme from '../controllers/Organization/orgme.js';
+import UpdateOrg from '../controllers/Organization/update.js';
+import AddMember from '../controllers/Organization/addMember.js';
+import GetOrgMembers from '../controllers/Organization/GetallMembers.js';
+import DeleteOrg from '../controllers/Organization/deleteOrg.js';
+import RemoveMember from '../controllers/Organization/removeMember.js';
+import ChangeMemberRole from '../controllers/Organization/ChangeRole.js';
 
 const Orgrouter=express.Router();
 

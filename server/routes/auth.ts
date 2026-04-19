@@ -1,13 +1,13 @@
 import express from 'express'
-import signup from '../controllers/auth/signup';
-import Login from '../controllers/auth/login';
-import Refresh from '../controllers/auth/refreshToken';
-import LogOut from '../controllers/auth/logout';
-import Me from '../controllers/auth/me';
-import { updateProfile } from '../controllers/auth/updateProfile';
-import { googleLogin } from '../controllers/auth/googleLogin';
-import sendOtp from '../controllers/auth/sendOtp';
-import authenticateToken from '../middlewares/authToken';
+import signup from '../controllers/auth/signup.js';
+import Login from '../controllers/auth/login.js';
+import Refresh from '../controllers/auth/refreshToken.js';
+import LogOut from '../controllers/auth/logout.js';
+import Me from '../controllers/auth/me.js';
+import { updateProfile } from '../controllers/auth/updateProfile.js';
+import { googleLogin } from '../controllers/auth/googleLogin.js';
+import sendOtp from '../controllers/auth/sendOtp.js';
+import authenticateToken from '../middlewares/authToken.js';
 const router=express.Router();
 
 router.post('/send-otp',sendOtp);

@@ -1,7 +1,7 @@
 
 
 import express from 'express'
-import { prisma } from '../../lib/prisma';
+import { prisma } from '../../lib/prisma.js';
 import bcrypt from 'bcrypt'
 
 const signup = async (req: express.Request, res: express.Response) => {

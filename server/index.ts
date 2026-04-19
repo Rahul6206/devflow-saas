@@ -1,12 +1,12 @@
 import cors from "cors";
 import express from "express";
 import dotenv from 'dotenv';
-import router from "./routes/auth";
-import Orgrouter from "./routes/org";
-import ProjetRoute from "./routes/projects";
-import TaskRoute from "./routes/task";
-import NotificationRoute from "./routes/notification";
-import SearchRoute from "./routes/search"; 
+import router from "./routes/auth.js";
+import Orgrouter from "./routes/org.js";
+import ProjetRoute from "./routes/projects.js";
+import TaskRoute from "./routes/task.js";
+import NotificationRoute from "./routes/notification.js";
+import SearchRoute from "./routes/search.js"; 
 import path from "path"; 
 
 dotenv.config();

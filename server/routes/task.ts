@@ -1,13 +1,13 @@
 import express from "express";
-import authenticateToken from "../middlewares/authToken";
-import CreateTask from "../controllers/Task/CreateTask";
-import GetTasks from "../controllers/Task/GetTask";
-import GetSingleTask from "../controllers/Task/GetSingleTaskDetails";
-import UpdateTask from "../controllers/Task/UpdateTask";
-import DeleteTask from "../controllers/Task/Delete";
-import AssignTask from "../controllers/Task/AssignTask";
-import UpdateTaskStatus from "../controllers/Task/UpdateStatus";
-import { createComment, getComments } from "../controllers/Task/Comments";
+import authenticateToken from "../middlewares/authToken.js";
+import CreateTask from "../controllers/Task/CreateTask.js";
+import GetTasks from "../controllers/Task/GetTask.js";
+import GetSingleTask from "../controllers/Task/GetSingleTaskDetails.js";
+import UpdateTask from "../controllers/Task/UpdateTask.js";
+import DeleteTask from "../controllers/Task/Delete.js";
+import AssignTask from "../controllers/Task/AssignTask.js";
+import UpdateTaskStatus from "../controllers/Task/UpdateStatus.js";
+import { createComment, getComments } from "../controllers/Task/Comments.js";
 
 const TaskRoute=express.Router();
 

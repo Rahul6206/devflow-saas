@@ -1,6 +1,6 @@
 import express from "express";
-import { prisma } from "../../lib/prisma";
-import sendEmail from "../../utils/sendEmail";
+import { prisma } from "../../lib/prisma.js";
+import sendEmail from "../../utils/sendEmail.js";
 
 const sendOtp = async (req: express.Request, res: express.Response) => {
   const { name, email, password } = req.body;

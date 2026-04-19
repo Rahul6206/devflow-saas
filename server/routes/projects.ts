@@ -1,10 +1,10 @@
 import express from "express";
-import CreateProject from "../controllers/Projets/CreateProject";
-import authenticateToken from "../middlewares/authToken";
-import GetProjects from "../controllers/Projets/GetProjects";
-import GetSingleProject from "../controllers/Projets/GetSingleProject";
-import UpdateProject from "../controllers/Projets/UpdateProject";
-import DeleteProject from "../controllers/Projets/DeleteProject";
+import CreateProject from "../controllers/Projets/CreateProject.js";
+import authenticateToken from "../middlewares/authToken.js";
+import GetProjects from "../controllers/Projets/GetProjects.js";
+import GetSingleProject from "../controllers/Projets/GetSingleProject.js";
+import UpdateProject from "../controllers/Projets/UpdateProject.js";
+import DeleteProject from "../controllers/Projets/DeleteProject.js";
 
 const ProjetRoute=express.Router();
 

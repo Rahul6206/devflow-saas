@@ -1,0 +1,22 @@
+import express from "express";
+import authenticateToken from "../middlewares/authToken.js";
+import CreateTask from "../controllers/Task/CreateTask.js";
+import GetTasks from "../controllers/Task/GetTask.js";
+import GetSingleTask from "../controllers/Task/GetSingleTaskDetails.js";
+import UpdateTask from "../controllers/Task/UpdateTask.js";
+import DeleteTask from "../controllers/Task/Delete.js";
+import AssignTask from "../controllers/Task/AssignTask.js";
+import UpdateTaskStatus from "../controllers/Task/UpdateStatus.js";
+import { createComment, getComments } from "../controllers/Task/Comments.js";
+const TaskRoute = express.Router();
+TaskRoute.post('/', authenticateToken, CreateTask);
+TaskRoute.get('/', authenticateToken, GetTasks);
+TaskRoute.get('/:taskId', authenticateToken, GetSingleTask);
+TaskRoute.patch('/:taskId', authenticateToken, UpdateTask);
+TaskRoute.delete('/:taskId', authenticateToken, DeleteTask);
+TaskRoute.patch('/:taskId/assign', authenticateToken, AssignTask);
+TaskRoute.patch('/:taskId/status', authenticateToken, UpdateTaskStatus);
+// Comments
+TaskRoute.post('/:taskId/comments', authenticateToken, createComment);
+TaskRoute.get('/:taskId/comments', authenticateToken, getComments);
+export default TaskRoute;

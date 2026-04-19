@@ -1,7 +1,7 @@
 
 import express from 'express'
-import { AuthRequest } from '../../utils/RequestType';
-import { prisma } from '../../lib/prisma';
+import { AuthRequest } from '../../utils/RequestType.js';
+import { prisma } from '../../lib/prisma.js';
 
 const AddMember = async (req: AuthRequest, res: express.Response) => {
     const usrid = req.user.id;

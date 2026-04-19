@@ -1,6 +1,6 @@
 import { Response } from "express";
-import { prisma } from "../../lib/prisma";
-import { AuthRequest } from "../../utils/RequestType";
+import { prisma } from "../../lib/prisma.js";
+import { AuthRequest } from "../../utils/RequestType.js";
 
 const Me = async (req: AuthRequest, res: Response) => {
   try {
