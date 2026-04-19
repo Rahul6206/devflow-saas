@@ -2,6 +2,12 @@
 import cors from "cors";
 import express from "express";
 import dotenv from 'dotenv'
+import router from "./routes/auth";
+import Orgrouter from "./routes/org";
+import ProjetRoute from "./routes/projects";
+import TaskRoute from "./routes/task";
+import NotificationRoute from "./routes/notification";
+import SearchRoute from "./routes/search";
 
 //env
 dotenv.config();
@@ -17,21 +23,15 @@ app.use(cors({
   credentials:true
 }));
 
-import router from "./routes/auth";
-import Orgrouter from "./routes/org";
-import ProjetRoute from "./routes/projects";
-import TaskRoute from "./routes/task";
-import NotificationRoute from "./routes/notification";
-import SearchRoute from "./routes/search";
- 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
+ 
 
 
 // Middleware
+app.use(express.static("public"))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 // Routes
 app.get("/", (req, res) => {
